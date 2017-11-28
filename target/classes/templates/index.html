@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1" />
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	<div class="container">
+		
+			<legend> Person Information </legend>
+		<div class="form-group">
+			<form class="form-horizontal" id="form_members" role="form"
+				th:action="@{/postInfo}" th:object="${profileInfo}"
+				enctype="multipart/form-data" method="post">	
+				<div class="row">
+					<label for="firstname" class="col-sm-2">First Name</label>
+					<div class="col-sm-4">
+						<input type="hidden" class="form-control" th:field="*{profileId}" />
+						<input type="hidden" class="form-control"
+							th:field="*{profileFilePath}" /> <input type="text"
+							class="form-control" th:field="*{firstName}" id="firstname"
+							placeholder="First Name" />
+					</div>
+					<label for="lastname" class="col-sm-2">Last Name</label>
+					<div class="col-sm-4 ">
+						<input type="text" class="form-control" th:field="*{lastName}"
+							id="lastname" placeholder="Last Name" />
+					</div>
+				</div>
+				<br/> <br/>
+				<div class="row">
+					<label for="file" class="col-sm-2">Attach Profile</label>
+					<div class="col-sm-4">
+						<input type="file" class="form-control" name="profileFile"
+							id="file" placeholder="Last Name" />
+					</div>
+					<div class="col-sm-4">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-warning" name="submit"
+								id="submit">Submit</button>
+						</div>
+					</div>
+				</div>
+			</form>	
+				<br />
+				<br />
+				
+
+				<br /> <br />
+				<div class="row">
+					<table id="datatable" class="table table-striped table-bordered">
+						<thead>
+							<th>Unique ID</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Attachment</th>
+							<th>Edit</th>
+							<th>Delete</th>
+						</thead>
+						<tbody>
+							<tr th:each="profileInfo : ${profileInfoList}">
+								<td th:text="${profileInfo.profileId}"></td>
+								<td th:text="${profileInfo.firstName}"></td>
+								<td th:text="${profileInfo.lastName}"></td>
+								<td><a th:href="@{${profileInfo.profileFilePath}}"
+									target="_blank" class="btn btn-success" type="button">  Download Profile </a></td>
+								<td style="width: 50px">
+									<form ACTION="#" th:action="@{/edit}"
+										method="POST">
+										<input type="hidden" name="profileId"
+											th:value="${profileInfo.profileId}" />
+										<button type="submit" class="glyphicon glyphicon-pencil">
+										</button>
+									</form>
+								</td>
+								<td style="width: 5px">
+									<form ACTION="#" th:action="@{/delete}"
+										method="POST">
+										<input type="hidden" name="profileId"
+											th:value="${profileInfo.profileId}" />
+										<button type="submit" class="glyphicon glyphicon-trash">
+										</button>
+									</form>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		
+	</div>
+</body>
+</html>
